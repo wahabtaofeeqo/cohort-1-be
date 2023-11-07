@@ -69,7 +69,7 @@ public class UserController {
                 list.add(name);
             }
             
-            System.out.println("Names: " + Arrays.asList(list).toString());
+            System.out.println("Names: " + list.toString());
         } 
         catch (Exception e) {
             System.out.println("E: " + e.getMessage());
