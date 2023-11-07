@@ -62,10 +62,11 @@ public class NewServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         
         Connection connection = DBConnection.connect();
-      
         UserController uc = new UserController(connection);
-        uc.createUser("Tao", "Male", "Tao@yahoo.com");
         
+        // uc.createUser("Tao", "Male", "Tao@yahoo.com");
+        uc.loadUsers();
+ 
         processRequest(request, response);
     }
 

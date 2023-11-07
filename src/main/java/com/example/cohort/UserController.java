@@ -6,7 +6,11 @@ package com.example.cohort;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  *
@@ -14,7 +18,7 @@ import java.sql.Statement;
  */
 public class UserController {
     
-    Connection connection;
+    private Connection connection;
 
     public UserController(Connection connection) {
         this.connection = connection;
@@ -37,20 +41,37 @@ public class UserController {
     
     public void createUser(String name, String gender, String email) {
         try {
-            Statement statement = connection.createStatement();
-            PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO users (name, gender, email) VALUES (?,?,?)");
+            String sql = "INSERT INTO users (name, gender, email) VALUES (?,?,?)";
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
             
             preparedStatement.setString(1, name);
             preparedStatement.setString(2, gender);
             preparedStatement.setString(3, email);
             
             preparedStatement.execute();
+        } 
+        catch (Exception e) {
+            System.out.println("E: " + e.getMessage());
+        }
+    }
+    
+    
+    public void loadUsers() {
+        try {
+            String sql = "SELECT * FROM users";
+            Statement statement = connection.createStatement();
             
-//            
-//            statement.execute("INSERT INTO users(name, gender, email) VALUES (" + name + ","
-//                    + gender + ","
-//                    + email + ")");
-        } catch (Exception e) {
+            List<String> list = new  ArrayList<>();
+            ResultSet resultSet = statement.executeQuery(sql);
+            
+            while (resultSet.next()) {
+                String name = resultSet.getString("name");
+                list.add(name);
+            }
+            
+            System.out.println("Names: " + Arrays.asList(list).toString());
+        } 
+        catch (Exception e) {
             System.out.println("E: " + e.getMessage());
         }
     }
